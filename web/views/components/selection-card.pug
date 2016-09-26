@@ -1,0 +1,25 @@
+div(class="row")
+    div(class="col s12")
+        div(class="card purple")
+            div(class="card-content")
+                span(class="card-title white-text") NBA Defensive Statistics
+                div(class="row")
+                    div(class="input-field col s6")
+                        select()
+                            option(value="Select a team", disabled, selected)
+                            for team in teams
+                                option(value=team.TEAM_ID) #{team.TEAM_NAME}
+                        select()
+                            option(value="Select a player", disabled, selected)
+                            for player in players
+                                option(value=player.PLAYER_ID) #{player.PLAYER_NAME}
+script.
+    $(document).ready(function () {
+        $('select').material_select();
+    });
+
+    //TODO - add limits on select based on selected team
+
+    //TODO - add D3 page to this page instead of having redirection
+
+
