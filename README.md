@@ -2,10 +2,10 @@
 This repository holds the UOIT 3700 Database Management Systems template server that connects to a MySQL database and acts as an external API.
 
 # Setup
-- [Windows](# Windows Setup)
-- [Linux](# Linux Setup)
-- [Webstorm Setup](# Webstorm IDE Setup)
-- [Running Project](# Run Project)
+- [Windows](#windows-setup)
+- [Linux](#linux-setup)
+- [Webstorm Setup](#webstorm-ide-setup)
+- [Running Project](#run-project)
 
 # Windows Setup
 - Install git [if not already installed](https://git-scm.com/download/win)
