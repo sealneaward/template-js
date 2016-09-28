@@ -12,5 +12,6 @@ CREATE TABLE `nba`.`Players` (
                 STL int,
                 TEAM_ABBREVIATION varchar(50),
                 TEAM_ID int,
-                W int
+                W int,
+				PRIMARY KEY(PLAYER_ID)
 );

@@ -6,12 +6,38 @@ const mysql = require('mysql');
 
 const deleteData = (log, connection) => {
     return new Promise ((resolve, reject) => {
-        connection.query('DROP TABLE IF EXISTS Player,Team ', (err, response) => {
+        truncateTeams(connection).then(() => {
+            truncatePlayers(connection).then(() => {
+               resolve();
+            });
+        }).catch((err) => {
+            /* istanbul ignore next */
+            reject(err);
+        });
+    });
+};
+
+const truncateTeams = (connection) => {
+  return new Promise((resolve, reject) => {
+      connection.query('TRUNCATE TABLE Teams', (err) => {
+          /* istanbul ignore if */
+          if (err) {
+              reject(err);
+          } else {
+              resolve();
+          }
+      });
+  });
+};
+
+const truncatePlayers = (connection) => {
+    return new Promise((resolve, reject) => {
+        connection.query('TRUNCATE TABLE Players', (err) => {
+            /* istanbul ignore if */
             if (err) {
                 reject(err);
             } else {
-                log.info('Dropped tables');
-                resolve(response);
+                resolve();
             }
         });
     });
@@ -23,11 +49,10 @@ const deleteData = (log, connection) => {
 const getData = (log, config, connection) => {
     return new Promise ((resolve,reject) => {
         // delete db on each population to avoid overlap
-        deleteData(log, connection).then(
-            getTeams(log,config.urls.teams, connection)
-        ).then(
+        Promise.all([
+            getTeams(log,config.urls.teams, connection),
             getPlayers(log,config.urls.players, connection)
-        ).then(() => {
+        ]).then(() => {
             resolve();
         }).catch((err) => {
             log.info('Could not insert team data successfully: ', err);
@@ -56,11 +81,11 @@ const getTeams = (log, url, connection) => {
 
                 //set headers as keys
                 data = data.map((playerData) => {
-                    const playerObj = {};
+                    const playerObj = [];
                     headers.forEach((header, index) => {
                         if(header === "TEAM_ID" || header === "TEAM_NAME")
                         {
-                            playerObj[header] = playerData[index];
+                            playerObj.push(playerData[index]);
                         }
                     });
                     return playerObj;
@@ -135,7 +160,7 @@ const insertPlayers = (connection, data) => {
             'DEF_RIM_FG_PCT' +
             ') VALUES ?';
 
-        connection.query(query, data, (err) => {
+        connection.query(query, [data], (err) => {
             if (err) {
                 reject(err);
             } else {
@@ -149,14 +174,14 @@ const insertPlayers = (connection, data) => {
 /*
  *  insert/update into db
  * */
-const insertTeams = (data) => {
+const insertTeams = (connection, data) => {
     return new Promise ((resolve,reject) => {
         const query = 'INSERT INTO Teams (' +
             'TEAM_ID,' +
             'TEAM_NAME' +
             ') VALUES ?';
 
-        connection.query(query, data, (err) => {
+        connection.query(query, [data], (err) => {
             if (err) {
                 reject(err);
             } else {
@@ -170,5 +195,9 @@ module.exports = {
     deleteData,
     getData,
     getTeams,
-    getPlayers
+    getPlayers,
+    insertPlayers,
+    insertTeams,
+    truncatePlayers,
+    truncateTeams
 };

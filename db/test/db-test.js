@@ -1,27 +1,43 @@
 'use strict';
 
+const chaiAsPromised = require('chai-as-promised');
 const chai  = require('chai');
-const mongoose = require('mongoose');
+const assert = chai.assert;
+chai.use(chaiAsPromised);
 const config = require('../../config');
-const connection = require('../lib/connection');
+const log = require('bunyan').createLogger(config.log);
+const dbConnection = require('../lib/connection');
 const db = require('../lib/db');
 
 describe('Local db tests', () => {
-    before('Establishes mongo connection', (done) => {
-        connection.connect(config).then(() => {
+    let connection;
+
+    before('Establishes mysql connection', (done) => {
+        dbConnection.connect(config).then((sqlConnection) => {
+            connection = sqlConnection;
             done();
         });
     });
 
     it('Gets player data from db', () => {
-        return db.getPlayers();
+        return db.getPlayers(connection, log);
     });
 
     it('Gets team data from db', () => {
-        return db.getTeams();
+        return db.getTeams(connection, log);
     });
 
-    after('Close mongo connection', () => {
-        mongoose.connection.close();
+    it('Gets player data from db with invalid connection', () => {
+        const wrongConnection = {};
+        return assert.isRejected(db.getPlayers(wrongConnection, log));
+    });
+
+    it('Gets team data from db with invalid connection', () => {
+        const wrongConnection = {};
+        return assert.isRejected(db.getTeams(wrongConnection, log));
+    });
+
+    after('Close mysql connection', () => {
+        connection.end();
     });
 });

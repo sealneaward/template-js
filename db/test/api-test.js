@@ -3,69 +3,49 @@
 const chaiAsPromised = require('chai-as-promised');
 const chai  = require('chai');
 const assert = chai.assert;
-const mongoose = require('mongoose');
 const _ = require('lodash');
 const config = require('../../config');
-const connection = require('../lib/connection');
+const dbConnection = require('../lib/connection');
 const api = require('../lib/api');
 const log = require('bunyan').createLogger(config.log);
 
 chai.use(chaiAsPromised);
 
 describe('NBA Statistics API tests', () => {
-    before('Establishes mongo connection', (done) => {
-        connection.connect(config).then(() => {
-            done();
+    let connection;
+
+    before('Establishes mysql connection and truncates data', (done) => {
+        dbConnection.connect(config).then((sqlConnection) => {
+            connection = sqlConnection;
+            api.deleteData(log, connection).then(() => {
+               done();
+            });
         });
     });
 
     it('Gets data from api with valid url', () => {
-        return api.getData(log, config);
+        return api.getData(log, config, connection);
     });
 
-    it('Gets data from api with invalid urls 1/2', (done) => {
-        const invalidConfig = _.cloneDeep(config);
-        invalidConfig.urls.players = 'notvalid.com';
-
-        assert.isRejected(api.getData(log, invalidConfig)).then(() => {
-            done();
-        });
-    });
-
-    it('Gets data from api with invalid urls 1/2', (done) => {
-        const invalidConfig = _.cloneDeep(config);
-        invalidConfig.urls.teams = 'notvalid.com';
-
-        assert.isRejected(api.getData(log, invalidConfig)).then(() => {
-            done();
-        });
-    });
-
-    it('Gets player data from api with invalid url', (done) => {
+    it('Gets data from api with invalid url', () => {
         const invalidConfig = _.cloneDeep(config);
         invalidConfig.urls = {
           players: "notvalid.com",
           teams: "notvalid.com"
         };
 
-        assert.isRejected(api.getPlayers(log, invalidConfig.urls.players)).then(() => {
-            done();
-        });
+        return assert.isRejected(api.getData(log, invalidConfig, connection));
     });
 
-    it('Gets team data from api with invalid url', (done) => {
-        const invalidConfig = _.cloneDeep(config);
-        invalidConfig.urls = {
-            players: "notvalid.com",
-            teams: "notvalid.com"
-        };
-
-        assert.isRejected(api.getTeams(log, invalidConfig.urls.teams)).then(() => {
-            done();
-        });
+    it('Inserts teams with invalid data', () => {
+        return assert.isRejected(api.insertTeams(connection, []));
     });
 
-    after('Close mongo connection', () => {
-       mongoose.connection.close();
+    it('Inserts players with invalid data', () => {
+        return assert.isRejected(api.insertPlayers(connection, []));
+    });
+
+    after('Close mysql connection', () => {
+       connection.end();
     });
 });
