@@ -1,7 +1,7 @@
 {
-  "name": "monstars",
+  "name": "template-js",
   "version": "1.0.0",
-  "description": "A Node.js application that stores nba statistics in a local mongo db and represents the statistics in D3.js visualizations",
+  "description": "A Node.js application that stores nba statistics in a local mysql db and represents the statistics in a simple form",
   "main": "/db/index.js",
   "scripts": {
     "clean": "rimraf coverage",
@@ -15,14 +15,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sealneaward/monstars.git"
+    "url": "git+https://github.com/sealneaward/template-js.git"
   },
   "author": "Neil Seward",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/sealneaward/monstars/issues"
+    "url": "https://github.com/sealneaward/template-js/issues"
   },
-  "homepage": "https://github.com/sealneaward/monstars#readme",
+  "homepage": "https://github.com/sealneaward/template-js#readme",
   "dependencies": {
     "bluebird": "^3.4.3",
     "body-parser": "^1.15.2",
