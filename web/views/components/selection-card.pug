@@ -2,23 +2,43 @@ div(class="row")
     div(class="col s12")
         div(class="card purple")
             div(class="card-content")
-                span(class="card-title white-text") NBA Defensive Statistics
+                span(class="card-title white-text") Select a Player
                 div(class="row")
                     div(class="input-field col s6")
-                        select()
-                            option(value="Select a team", disabled, selected)
+                        select(id="team_select")
                             for team in teams
-                                option(value=team.TEAM_ID) #{team.TEAM_NAME}
-                        select()
-                            option(value="Select a player", disabled, selected)
+                                option(id=team.TEAM_ID, value=team.TEAM_ID) #{team.TEAM_NAME}
+                        label(for="team_select", class="white-text") Select a Team
+                    div(class="input-field col s6")
+                        select(id="player_select")
                             for player in players
-                                option(value=player.PLAYER_ID) #{player.PLAYER_NAME}
+                                option(id=player.PLAYER_ID, value=player.TEAM_ID) #{player.PLAYER_NAME}
+                        label(for="player_select", class="white-text") Select a Player
 script.
     $(document).ready(function () {
+        var selectedValue = $('#team_select').val();
+
+        $("#player_select option").each(function () {
+            if ($(this).val() != selectedValue) {
+                $(this).toggle();
+            }
+        });
+
         $('select').material_select();
     });
 
-    //TODO - add limits on select based on selected team
+    $('#team_select').on('change', function () {
+        var selectedValue = $('#team_select').val();
 
+        $("#player_select option").each(function () {
+            if ($(this).val() != selectedValue) {
+                $(this).prop('disabled', true);
+            } else {
+                $(this).prop('disabled', false);
+            }
+        });
+
+        $('select').material_select();
+    });
 
 

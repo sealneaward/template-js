@@ -11,7 +11,7 @@ dbConnection.connect(config).then((connection) =>{
    db.getPlayers(connection, log).then((players) => {
       db.getTeams(connection, log).then((teams) => {
          server.createServer(config,log, players, teams, () => {
-            log.info('template started successfully');
+            log.info('template started successfully on: ' +config.web.url);
          });
       });
    });

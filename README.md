@@ -6,6 +6,9 @@ This repository holds the UOIT 3700 Database Management Systems template server 
 - [Linux](#linux-setup)
 - [Webstorm Setup](#webstorm-ide-setup)
 - [Running Project](#run-project)
+- [Testing Project](#testing)
+- [Running Project Without Testing](#without-testing)
+- [Additional Styling](#styling)
 
 # Windows Setup
 - Install git [if not already installed](https://git-scm.com/download/win)
@@ -83,5 +86,23 @@ npm run populate
 ```
 npm run start
 ```
+- to visit the page, go [here](localhost:3000)
 ### Testing
-- this can be removed
+- this can be ignored if you don't care about testing
+- HINT: group collaboration is made much easier and your code is easier to understand with tests
+```
+npm run test
+```
+### Without Testing
+- this repo does mandatory testing on all commits
+- to ignore automated testing, commites can be made by
+```
+git add {files}
+git commit -n -m "commit message here"
+git push
+```
+
+# Styling
+I used materialize css to pretty much all of the styling in the pug/jade files.
+It has really good documentation on how to work with the css file and has all the examples you could ever think of.
+[MaterializeCSS](http://materializecss.com/)

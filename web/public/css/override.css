@@ -1,0 +1,7 @@
+option:disabled,.dropdown-content li>a, .dropdown-content li>span {
+    color: purple;
+}
+
+.select-wrapper input.select-dropdown{
+    color: white;
+}
