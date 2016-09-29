@@ -25,12 +25,16 @@ npm install
 - When installing, make sure to include the MySQL Workbench in the installation
 
 ### MySQL Database Setup
-- TODO
 - When creating a database, make sure to create a database with the following info
+- Click on new schema button (disk with plus sign at top toolbar)
 
-| Database       | Username           | Password  |
+| Schema       | Username           | Password  |
 | ------------- | ------------- | ----- |
-| template    | root | root |
+| nba    | root | root |
+
+![MySQL Setup](img/schema.png)
+
+- Use the .sql scripts in the db/schema folder to create the tables. Run as queries.
 
 # Linux Setup
 - Install git if not already installed
@@ -56,12 +60,16 @@ sudo apt-get install mysql-server mysql-workbench
 ```
 
 ### MySQL Database Setup
-- TODO
 - When creating a database, make sure to create a database with the following info
+- Click on new schema button (disk with plus sign at top toolbar)
 
-| Database       | Username           | Password  |
+| Schema       | Username           | Password  |
 | ------------- | ------------- | ----- |
-| template    | root | root |
+| nba    | root | root |
+
+![MySQL Setup](img/schema.png)
+
+- Use the .sql scripts in the db/schema folder to create the tables. Run as queries.
 
 # Webstorm IDE Setup
 - download and install [Webstorm](https://www.jetbrains.com/webstorm/)
