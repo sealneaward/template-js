@@ -86,7 +86,7 @@ npm run populate
 ```
 npm run start
 ```
-- to visit the page, go [here](localhost:3000)
+
 ### Testing
 - this can be ignored if you don't care about testing
 - HINT: group collaboration is made much easier and your code is easier to understand with tests
@@ -105,4 +105,5 @@ git push
 # Styling
 I used materialize css to pretty much all of the styling in the pug/jade files.
 It has really good documentation on how to work with the css file and has all the examples you could ever think of.
+
 [MaterializeCSS](http://materializecss.com/)
