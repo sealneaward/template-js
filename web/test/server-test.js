@@ -34,4 +34,22 @@ describe('Server Tests', () => {
             .set('Accept', 'application/json')
             .expect(200,done);
     });
+
+    it('Test response of internal api with valid id', (done) => {
+        api.get('/playerstats/?id=1495')
+            .set('Accept', 'application/json')
+            .expect(200,done);
+    });
+
+    it('Test response of internal api with non-existing player', (done) => {
+        api.get('/playerstats/?id=2')
+            .set('Accept', 'application/json')
+            .expect(200,done);
+    });
+
+    it('Test response of internal api with invalid input', (done) => {
+        api.get('/playerstats/?id=asdfas')
+            .set('Accept', 'application/json')
+            .expect(200,done);
+    });
 });

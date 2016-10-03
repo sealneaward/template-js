@@ -13,9 +13,11 @@ const createServer = function(config, log, players, teams, next){
     log.info(path.join(__dirname, '../public'));
     app.use(express.static(path.join(__dirname, '../public')));
     app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(bodyParser.json());
 
     // load routes into server
     app.get('/', require('./routes/data')(log, players, teams));
+    app.get('/playerstats', require('./routes/stats')(log, players, teams));
 
     // listen on port
     app.listen(config.web.port);
