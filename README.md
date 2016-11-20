@@ -45,7 +45,7 @@ npm install
 | ------------- |
 | nba    |
 
-![MySQL Setup](img/schema-windows.png)
+![MySQL Setup](img/schema-windows.PNG)
 
 - Use the .sql scripts in the db/schema folder to create the tables. Run as queries.
 
