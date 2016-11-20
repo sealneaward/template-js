@@ -23,18 +23,35 @@ npm install
 ```
 - Install [MySQL](http://dev.mysql.com/downloads/installer/)
 - When installing, make sure to include the MySQL Workbench in the installation
+- Select the default developer installation
+
+![installation](img/mysql-install-default.PNG)
+
+- The installation should allow you the option to create a user. Enter in the following info.
+
+| Username           | Password  |
+| ------------- | ----- |
+| root | root |
+
+![creating user](img/user-creation.PNG)
+
+![user created](img/user-created.PNG)
 
 ### MySQL Database Setup
 - When creating a database, make sure to create a database with the following info
 - Click on new schema button (disk with plus sign at top toolbar)
 
-| Schema       | Username           | Password  |
-| ------------- | ------------- | ----- |
-| nba    | root | root |
+| Schema       |
+| ------------- |
+| nba    |
 
-![MySQL Setup](img/schema.png)
+![MySQL Setup](img/schema-windows.png)
 
 - Use the .sql scripts in the db/schema folder to create the tables. Run as queries.
+
+![table created](img/table-creation-team.PNG)
+
+![table created](img/table-creation-players.PNG)
 
 # Linux Setup
 - Install git if not already installed
