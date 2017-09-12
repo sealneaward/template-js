@@ -50,8 +50,8 @@ const getData = (log, config, connection) => {
     return new Promise ((resolve,reject) => {
         // delete db on each population to avoid overlap
         Promise.all([
-            getTeams(log,config.urls.teams, connection),
-            getPlayers(log,config.urls.players, connection)
+            getTeams(log,{url:config.urls.teams, headers:config.headers, gzip:true}, connection),
+            getPlayers(log,{url:config.urls.players, headers:config.headers, gzip:true}, connection)
         ]).then(() => {
             resolve();
         }).catch((err) => {
@@ -64,18 +64,19 @@ const getData = (log, config, connection) => {
 /*
 * Get team data from api and organize headers into team object
 * */
-const getTeams = (log, url, connection) => {
+const getTeams = (log, options, connection) => {
     return new Promise ((resolve,reject) => {
         let data;
 
-        request(url,(err,response) => {
+        request(options,(err,response) => {
             if (err) {
                 log.info('Could not get data', err);
                 reject(err);
                 return;
             } else {
                 log.info('Got data');
-                response = JSON.parse(response.body).resultSets[0];
+                response = JSON.parse(response.body);
+                response = response.resultSets[0];
                 const headers = response.headers;
                 data = response.rowSet;
 
@@ -108,18 +109,19 @@ const getTeams = (log, url, connection) => {
 /*
 * Get player data from api then organize headers to form player object
 * */
-const getPlayers = (log, url, connection) => {
+const getPlayers = (log, options, connection) => {
     return new Promise ((resolve,reject) => {
         let data;
 
-        request(url,(err,response) => {
+        request(options,(err,response) => {
             if (err) {
                 log.info('Could not get data', err);
                 reject(err);
                 return;
             } else {
                 log.info('Got data');
-                response = JSON.parse(response.body).resultSets[0];
+                response = JSON.parse(response.body);
+                response = response.resultSets[0];
                 data = response.rowSet;
                 const headers = response.headers;
 
